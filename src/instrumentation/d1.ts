@@ -1,5 +1,10 @@
-import { Attributes, SpanKind, SpanOptions, SpanStatusCode, Exception, trace } from '@opentelemetry/api'
-import { SemanticAttributes } from '@opentelemetry/semantic-conventions'
+import { Attributes, Exception, SpanKind, SpanOptions, SpanStatusCode, trace } from '@opentelemetry/api'
+import {
+	ATTR_DB_NAMESPACE,
+	ATTR_DB_OPERATION_NAME,
+	ATTR_DB_QUERY_TEXT,
+	ATTR_DB_SYSTEM,
+} from '@opentelemetry/semantic-conventions/incubating'
 import { wrap } from '../wrap.js'
 
 const dbSystem = 'Cloudflare D1'
@@ -25,12 +30,12 @@ function metaAttributes(meta: D1Meta): Attributes {
 function spanOptions(dbName: string, operation: string, sql?: string): SpanOptions {
 	const attributes: Attributes = {
 		binding_type: 'D1',
-		[SemanticAttributes.DB_NAME]: dbName,
-		[SemanticAttributes.DB_SYSTEM]: dbSystem,
-		[SemanticAttributes.DB_OPERATION]: operation,
+		[ATTR_DB_NAMESPACE]: dbName,
+		[ATTR_DB_SYSTEM]: dbSystem,
+		[ATTR_DB_OPERATION_NAME]: operation,
 	}
 	if (sql) {
-		attributes[SemanticAttributes.DB_STATEMENT] = sql
+		attributes[ATTR_DB_QUERY_TEXT] = sql
 	}
 	return {
 		kind: SpanKind.CLIENT,

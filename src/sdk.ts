@@ -1,5 +1,5 @@
 import { propagation } from '@opentelemetry/api'
-import { Resource } from '@opentelemetry/resources'
+import { Resource, resourceFromAttributes } from '@opentelemetry/resources'
 
 import { Initialiser, parseConfig } from './config.js'
 import { WorkerTracerProvider } from './provider.js'
@@ -13,6 +13,17 @@ import { createScheduledHandler } from './instrumentation/scheduled.js'
 //@ts-ignore
 import * as versions from '../versions.json'
 import { createEmailHandler } from './instrumentation/email.js'
+import {
+	ATTR_TELEMETRY_SDK_LANGUAGE,
+	ATTR_TELEMETRY_SDK_NAME,
+	ATTR_TELEMETRY_SDK_VERSION,
+} from '@opentelemetry/semantic-conventions'
+import {
+	ATTR_FAAS_MAX_MEMORY,
+	ATTR_SERVICE_NAME,
+	ATTR_SERVICE_NAMESPACE,
+	ATTR_SERVICE_VERSION,
+} from '@opentelemetry/semantic-conventions/incubating'
 
 type FetchHandler = ExportedHandlerFetchHandler<unknown, unknown>
 type ScheduledHandler = ExportedHandlerScheduledHandler<unknown>
@@ -39,18 +50,18 @@ const createResource = (config: ResolvedTraceConfig): Resource => {
 		'cloud.provider': 'cloudflare',
 		'cloud.platform': 'cloudflare.workers',
 		'cloud.region': 'earth',
-		'faas.max_memory': 134217728,
-		'telemetry.sdk.language': 'js',
-		'telemetry.sdk.name': '@microlabs/otel-cf-workers',
-		'telemetry.sdk.version': versions['@microlabs/otel-cf-workers'],
+		[ATTR_FAAS_MAX_MEMORY]: 134217728,
+		[ATTR_TELEMETRY_SDK_LANGUAGE]: 'js',
+		[ATTR_TELEMETRY_SDK_NAME]: '@microlabs/otel-cf-workers',
+		[ATTR_TELEMETRY_SDK_VERSION]: versions['@microlabs/otel-cf-workers'],
 		'telemetry.sdk.build.node_version': versions['node'],
 	}
-	const serviceResource = new Resource({
-		'service.name': config.service.name,
-		'service.namespace': config.service.namespace,
-		'service.version': config.service.version,
+	const serviceResource = resourceFromAttributes({
+		[ATTR_SERVICE_NAME]: config.service.name,
+		[ATTR_SERVICE_NAMESPACE]: config.service.namespace,
+		[ATTR_SERVICE_VERSION]: config.service.version,
 	})
-	const resource = new Resource(workerResourceAttrs)
+	const resource = resourceFromAttributes(workerResourceAttrs)
 	return resource.merge(serviceResource)
 }
 

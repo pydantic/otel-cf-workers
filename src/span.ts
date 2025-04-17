@@ -1,27 +1,30 @@
 import {
-	SpanContext,
-	Link,
-	SpanKind,
-	TimeInput,
-	Exception,
 	Attributes,
+	AttributeValue,
+	Exception,
 	HrTime,
+	Link,
 	Span,
+	SpanContext,
+	SpanKind,
 	SpanStatus,
 	SpanStatusCode,
-	AttributeValue,
+	TimeInput,
 } from '@opentelemetry/api'
 import {
 	hrTimeDuration,
-	InstrumentationLibrary,
-	isAttributeKey,
+	InstrumentationScope,
 	isAttributeValue,
 	isTimeInput,
 	sanitizeAttributes,
 } from '@opentelemetry/core'
-import { IResource } from '@opentelemetry/resources'
+import { Resource } from '@opentelemetry/resources'
 import { ReadableSpan, TimedEvent } from '@opentelemetry/sdk-trace-base'
-import { SemanticAttributes } from '@opentelemetry/semantic-conventions'
+import {
+	ATTR_EXCEPTION_MESSAGE,
+	ATTR_EXCEPTION_STACKTRACE,
+	ATTR_EXCEPTION_TYPE,
+} from '@opentelemetry/semantic-conventions'
 
 type OnSpanEnd = (span: Span) => void
 
@@ -29,7 +32,7 @@ interface SpanInit {
 	attributes: unknown
 	name: string
 	onEnd: OnSpanEnd
-	resource: IResource
+	resource: Resource
 	spanContext: SpanContext
 	links?: Link[]
 	parentSpanId?: string
@@ -40,18 +43,18 @@ interface SpanInit {
 function transformExceptionAttributes(exception: Exception): Attributes {
 	const attributes: Attributes = {}
 	if (typeof exception === 'string') {
-		attributes[SemanticAttributes.EXCEPTION_MESSAGE] = exception
+		attributes[ATTR_EXCEPTION_MESSAGE] = exception
 	} else {
 		if (exception.code) {
-			attributes[SemanticAttributes.EXCEPTION_TYPE] = exception.code.toString()
+			attributes[ATTR_EXCEPTION_TYPE] = exception.code.toString()
 		} else if (exception.name) {
-			attributes[SemanticAttributes.EXCEPTION_TYPE] = exception.name
+			attributes[ATTR_EXCEPTION_TYPE] = exception.name
 		}
 		if (exception.message) {
-			attributes[SemanticAttributes.EXCEPTION_MESSAGE] = exception.message
+			attributes[ATTR_EXCEPTION_MESSAGE] = exception.message
 		}
 		if (exception.stack) {
-			attributes[SemanticAttributes.EXCEPTION_STACKTRACE] = exception.stack
+			attributes[ATTR_EXCEPTION_STACKTRACE] = exception.stack
 		}
 	}
 	return attributes
@@ -78,6 +81,10 @@ function getHrTime(input?: TimeInput): HrTime {
 	throw new Error(`unreachable value: ${JSON.stringify(v)}`)
 }
 
+export function isAttributeKey(key: unknown): key is string {
+	return typeof key === 'string' && key.length > 0
+}
+
 export class SpanImpl implements Span, ReadableSpan {
 	name: string
 	private readonly _spanContext: SpanContext
@@ -93,8 +100,8 @@ export class SpanImpl implements Span, ReadableSpan {
 	readonly startTime: HrTime
 	readonly events: TimedEvent[] = []
 	readonly links: Link[]
-	readonly resource: IResource
-	instrumentationLibrary: InstrumentationLibrary = { name: '@microlabs/otel-cf-workers' }
+	readonly resource: Resource
+	instrumentationScope: InstrumentationScope = { name: '@microlabs/otel-cf-workers' }
 	private _ended: boolean = false
 	private _droppedAttributesCount: number = 0
 	private _droppedEventsCount: number = 0

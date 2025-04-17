@@ -2,13 +2,16 @@ import { BasicTracerProvider, InMemorySpanExporter, SimpleSpanProcessor } from '
 import { beforeEach, describe, expect, test, vitest } from 'vitest'
 import { AsyncLocalStorageContextManager } from '../../src/context'
 import { instrumentStorage } from '../../src/instrumentation/do-storage'
+import { context, trace } from '@opentelemetry/api'
 
 const exporter = new InMemorySpanExporter()
-const provider = new BasicTracerProvider()
-provider.addSpanProcessor(new SimpleSpanProcessor(exporter))
-provider.register({
-	contextManager: new AsyncLocalStorageContextManager(),
+
+const provider = new BasicTracerProvider({
+	spanProcessors: [new SimpleSpanProcessor(exporter)],
 })
+
+trace.setGlobalTracerProvider(provider)
+context.setGlobalContextManager(new AsyncLocalStorageContextManager())
 
 // not entirely accurate, but enough to satisfy types
 const sqlMock = {
@@ -58,8 +61,8 @@ describe('delete', () => {
 			{
 			  "db.cf.do.has_result": true,
 			  "db.cf.do.key": "key",
-			  "db.operation": "delete",
-			  "db.statement": "delete key",
+			  "db.operation.name": "delete",
+			  "db.query.text": "delete key",
 			  "db.system": "Cloudflare DO",
 			  "operation": "delete",
 			}
@@ -81,8 +84,8 @@ describe('delete', () => {
 			  "db.cf.do.has_result": true,
 			  "db.cf.do.key": "key1",
 			  "db.cf.do.number_of_keys": 2,
-			  "db.operation": "delete",
-			  "db.statement": "delete key1,key2",
+			  "db.operation.name": "delete",
+			  "db.query.text": "delete key1,key2",
 			  "db.system": "Cloudflare DO",
 			  "operation": "delete",
 			}
@@ -105,8 +108,8 @@ describe('delete', () => {
 			  "db.cf.do.has_result": true,
 			  "db.cf.do.key": "key",
 			  "db.cf.do.no_cache": true,
-			  "db.operation": "delete",
-			  "db.statement": "delete key",
+			  "db.operation.name": "delete",
+			  "db.query.text": "delete key",
 			  "db.system": "Cloudflare DO",
 			  "operation": "delete",
 			}
@@ -140,8 +143,8 @@ describe('deleteAll', () => {
 		expect(spans[0]?.attributes).toMatchInlineSnapshot(`
 			{
 			  "db.cf.do.has_result": false,
-			  "db.operation": "deleteAll",
-			  "db.statement": "deleteAll undefined",
+			  "db.operation.name": "deleteAll",
+			  "db.query.text": "deleteAll undefined",
 			  "db.system": "Cloudflare DO",
 			  "operation": "deleteAll",
 			}
@@ -187,8 +190,8 @@ describe('get', () => {
 			{
 			  "db.cf.do.has_result": true,
 			  "db.cf.do.key": "key",
-			  "db.operation": "get",
-			  "db.statement": "get key",
+			  "db.operation.name": "get",
+			  "db.query.text": "get key",
 			  "db.system": "Cloudflare DO",
 			  "operation": "get",
 			}
@@ -210,8 +213,8 @@ describe('get', () => {
 			  "db.cf.do.has_result": true,
 			  "db.cf.do.key": "key1",
 			  "db.cf.do.number_of_keys": 2,
-			  "db.operation": "get",
-			  "db.statement": "get key1,key2",
+			  "db.operation.name": "get",
+			  "db.query.text": "get key1,key2",
 			  "db.system": "Cloudflare DO",
 			  "operation": "get",
 			}
@@ -234,8 +237,8 @@ describe('get', () => {
 			  "db.cf.do.has_result": true,
 			  "db.cf.do.key": "key",
 			  "db.cf.do.no_cache": true,
-			  "db.operation": "get",
-			  "db.statement": "get key",
+			  "db.operation.name": "get",
+			  "db.query.text": "get key",
 			  "db.system": "Cloudflare DO",
 			  "operation": "get",
 			}
@@ -277,8 +280,8 @@ describe('list', () => {
 			{
 			  "db.cf.do.has_result": true,
 			  "db.cf.do.number_of_results": 0,
-			  "db.operation": "list",
-			  "db.statement": "list undefined",
+			  "db.operation.name": "list",
+			  "db.query.text": "list undefined",
 			  "db.system": "Cloudflare DO",
 			  "operation": "list",
 			}
@@ -300,8 +303,8 @@ describe('list', () => {
 			{
 			  "db.cf.do.has_result": true,
 			  "db.cf.do.number_of_results": 0,
-			  "db.operation": "list",
-			  "db.statement": "list [object Object]",
+			  "db.operation.name": "list",
+			  "db.query.text": "list [object Object]",
 			  "db.system": "Cloudflare DO",
 			  "operation": "list",
 			}
@@ -340,8 +343,8 @@ describe('put', () => {
 			{
 			  "db.cf.do.has_result": false,
 			  "db.cf.do.key": "key",
-			  "db.operation": "put",
-			  "db.statement": "put key",
+			  "db.operation.name": "put",
+			  "db.query.text": "put key",
 			  "db.system": "Cloudflare DO",
 			  "operation": "put",
 			}
@@ -369,8 +372,8 @@ describe('put', () => {
 			  "db.cf.do.has_result": false,
 			  "db.cf.do.key": "key",
 			  "db.cf.do.no_cache": true,
-			  "db.operation": "put",
-			  "db.statement": "put key",
+			  "db.operation.name": "put",
+			  "db.query.text": "put key",
 			  "db.system": "Cloudflare DO",
 			  "operation": "put",
 			}
@@ -395,8 +398,8 @@ describe('put', () => {
 			  "db.cf.do.has_result": false,
 			  "db.cf.do.key": "key1",
 			  "db.cf.do.number_of_keys": 2,
-			  "db.operation": "put",
-			  "db.statement": "put [object Object]",
+			  "db.operation.name": "put",
+			  "db.query.text": "put [object Object]",
 			  "db.system": "Cloudflare DO",
 			  "operation": "put",
 			}
@@ -431,8 +434,8 @@ describe('put', () => {
 			  "db.cf.do.key": "key1",
 			  "db.cf.do.no_cache": true,
 			  "db.cf.do.number_of_keys": 2,
-			  "db.operation": "put",
-			  "db.statement": "put [object Object]",
+			  "db.operation.name": "put",
+			  "db.query.text": "put [object Object]",
 			  "db.system": "Cloudflare DO",
 			  "operation": "put",
 			}
@@ -469,8 +472,8 @@ test('sync', async () => {
 	expect(spans[0]?.attributes).toMatchInlineSnapshot(`
 		{
 		  "db.cf.do.has_result": false,
-		  "db.operation": "sync",
-		  "db.statement": "sync undefined",
+		  "db.operation.name": "sync",
+		  "db.query.text": "sync undefined",
 		  "db.system": "Cloudflare DO",
 		  "operation": "sync",
 		}
