@@ -1,5 +1,13 @@
 # @microlabs/otel-cf-workers
 
+## 1.0.0-rc.50
+
+### Patch Changes
+
+- a2eead3: Upgrade to latest opentelemetry
+- a2eead3: Support id generator configuration
+- a2eead3: Support scope configuration
+
 ## 1.0.0-rc.49
 
 ### Minor Changes

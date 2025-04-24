@@ -5,8 +5,8 @@
     "@pydantic/otel-cf-workers": "1.0.0-rc.49"
   },
   "changesets": [
-    "violet-bananas-attend",
-    "yellow-lamps-sin",
-    "yellow-wombats-rhyme"
+    "cold-windows-invent",
+    "moody-camels-burn",
+    "strange-peaches-knock"
   ]
 }
