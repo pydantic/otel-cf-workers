@@ -43,4 +43,4 @@ jobs:
           set -eux
           PUBLISHED_VERSION=$(echo '${{ steps.changesets.outputs.publishedPackages }}' \
             | jq -er '[.[] | select(.name=="@pydantic/otel-cf-workers")][0].version')
-          npm dist-tag add @microlabs/otel-cf-workers@${PUBLISHED_VERSION} latest
+          npm dist-tag add @pydantic/otel-cf-workers@${PUBLISHED_VERSION} latest
