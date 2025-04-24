@@ -84,7 +84,7 @@ function init(config: ResolvedTraceConfig): void {
 		propagation.setGlobalPropagator(config.propagator)
 		const resource = createResource(config)
 
-		const provider = new WorkerTracerProvider(config.spanProcessors, resource, config.scope)
+		const provider = new WorkerTracerProvider(config.spanProcessors, resource, config.scope, config.idGenerator)
 		provider.register()
 		initialised = true
 	}

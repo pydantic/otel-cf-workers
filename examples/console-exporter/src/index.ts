@@ -1,6 +1,7 @@
 import { trace } from '@opentelemetry/api';
 import { ConsoleSpanExporter } from '@opentelemetry/sdk-trace-node';
 import { instrument, ResolveConfigFn } from '@pydantic/otel-cf-workers';
+import { ULIDGenerator } from './ULIDGenerator';
 
 export interface Env {
 	OTEL_TEST: KVNamespace;
@@ -22,6 +23,7 @@ const config: ResolveConfigFn = (env: Env, _trigger) => {
 		exporter: new ConsoleSpanExporter(),
 		service: { name: 'greetings' },
 		scope: { name: 'my-cf-worker', version: '1.0.0' },
+		idGenerator: new ULIDGenerator(),
 	};
 };
 
