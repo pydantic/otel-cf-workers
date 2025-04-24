@@ -46,14 +46,21 @@ export function isAlarm(trigger: Trigger): trigger is 'do-alarm' {
 }
 
 const createResource = (config: ResolvedTraceConfig): Resource => {
+	const packageName = Object.keys(versions).find((name) => name.endsWith('otel-cf-workers')) as
+		| keyof typeof versions
+		| undefined
+
+	if (!packageName) {
+		throw new Error('Package name not found in versions.json, searched for otel-cf-workers$')
+	}
 	const workerResourceAttrs = {
 		'cloud.provider': 'cloudflare',
 		'cloud.platform': 'cloudflare.workers',
 		'cloud.region': 'earth',
 		[ATTR_FAAS_MAX_MEMORY]: 134217728,
 		[ATTR_TELEMETRY_SDK_LANGUAGE]: 'js',
-		[ATTR_TELEMETRY_SDK_NAME]: '@microlabs/otel-cf-workers',
-		[ATTR_TELEMETRY_SDK_VERSION]: versions['@microlabs/otel-cf-workers'],
+		[ATTR_TELEMETRY_SDK_NAME]: packageName,
+		[ATTR_TELEMETRY_SDK_VERSION]: versions[packageName],
 		'telemetry.sdk.build.node_version': versions['node'],
 	}
 	const serviceResource = resourceFromAttributes({
@@ -77,7 +84,7 @@ function init(config: ResolvedTraceConfig): void {
 		propagation.setGlobalPropagator(config.propagator)
 		const resource = createResource(config)
 
-		const provider = new WorkerTracerProvider(config.spanProcessors, resource)
+		const provider = new WorkerTracerProvider(config.spanProcessors, resource, config.scope)
 		provider.register()
 		initialised = true
 	}

@@ -33,6 +33,7 @@ interface SpanInit {
 	name: string
 	onEnd: OnSpanEnd
 	resource: Resource
+	scope: InstrumentationScope
 	spanContext: SpanContext
 	links?: Link[]
 	parentSpanId?: string
@@ -101,7 +102,7 @@ export class SpanImpl implements Span, ReadableSpan {
 	readonly events: TimedEvent[] = []
 	readonly links: Link[]
 	readonly resource: Resource
-	instrumentationScope: InstrumentationScope = { name: '@microlabs/otel-cf-workers' }
+	readonly instrumentationScope: InstrumentationScope
 	private _ended: boolean = false
 	private _droppedAttributesCount: number = 0
 	private _droppedEventsCount: number = 0
@@ -116,6 +117,7 @@ export class SpanImpl implements Span, ReadableSpan {
 		this.startTime = getHrTime(init.startTime)
 		this.links = init.links || []
 		this.resource = init.resource
+		this.instrumentationScope = init.scope
 		this.onEnd = init.onEnd
 	}
 
