@@ -81,6 +81,7 @@ export class WorkerTracer implements Tracer {
 			resource: this.resource,
 			scope: this.scope,
 			spanContext,
+			parentSpanContext,
 			parentSpanId,
 			spanKind,
 			startTime: options.startTime,

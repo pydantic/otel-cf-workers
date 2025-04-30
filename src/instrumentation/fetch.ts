@@ -167,6 +167,8 @@ export function executeFetchHandler(fetchFn: FetchHandler, [request, env, ctx]: 
 		} finally {
 			if (readable.attributes['http.route']) {
 				span.updateName(`fetchHandler ${method} ${readable.attributes['http.route']}`)
+			} else if (readable.attributes['url.path']) {
+				span.updateName(`fetchHandler ${method} ${readable.attributes['url.path']}`)
 			}
 			span.end()
 		}

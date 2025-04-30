@@ -35,6 +35,7 @@ interface SpanInit {
 	resource: Resource
 	scope: InstrumentationScope
 	spanContext: SpanContext
+	parentSpanContext?: SpanContext
 	links?: Link[]
 	parentSpanId?: string
 	spanKind?: SpanKind
@@ -91,6 +92,7 @@ export class SpanImpl implements Span, ReadableSpan {
 	private readonly _spanContext: SpanContext
 	private readonly onEnd: OnSpanEnd
 	readonly parentSpanId?: string
+	readonly parentSpanContext?: SpanContext | undefined
 	readonly kind: SpanKind
 	readonly attributes: Attributes
 	status: SpanStatus = {
@@ -112,6 +114,7 @@ export class SpanImpl implements Span, ReadableSpan {
 		this.name = init.name
 		this._spanContext = init.spanContext
 		this.parentSpanId = init.parentSpanId
+		this.parentSpanContext = init.parentSpanContext
 		this.kind = init.spanKind || SpanKind.INTERNAL
 		this.attributes = sanitizeAttributes(init.attributes)
 		this.startTime = getHrTime(init.startTime)
