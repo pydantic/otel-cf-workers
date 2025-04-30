@@ -1,5 +1,12 @@
 # @microlabs/otel-cf-workers
 
+## 1.0.0-rc.51
+
+### Patch Changes
+
+- 5fcb341: Collect request/response headers in fetch instrumentation
+- 879d8ae: Fix parent span propagation
+
 ## 1.0.0-rc.50
 
 ### Patch Changes
