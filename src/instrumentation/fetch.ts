@@ -68,6 +68,10 @@ export function gatherRequestAttributes(request: Request): Attributes {
 	attrs['http.mime_type'] = headers.get('content-type')!
 	attrs['http.accepts'] = request.cf?.clientAcceptEncoding as string
 
+	for (const [key, value] of headers.entries()) {
+		attrs[`http.request.header.${key}`] = value
+	}
+
 	const u = new URL(request.url)
 	attrs['url.full'] = `${u.protocol}//${u.host}${u.pathname}${u.search}`
 	attrs['server.address'] = u.host
@@ -85,6 +89,10 @@ export function gatherResponseAttributes(response: Response): Attributes {
 		attrs['http.response.body.size'] = response.headers.get('content-length')!
 	}
 	attrs['http.mime_type'] = response.headers.get('content-type')!
+
+	for (const [key, value] of response.headers.entries()) {
+		attrs[`http.response.header.${key}`] = value
+	}
 	return attrs
 }
 
