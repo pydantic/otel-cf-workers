@@ -72,6 +72,7 @@ export function parseConfig(supplied: TraceConfig): ResolvedTraceConfig {
 			},
 			scope: supplied.scope || { name: 'cf-worker' },
 			idGenerator: supplied.idGenerator || new RandomIdGenerator(),
+			environment: supplied.environment || undefined,
 		}
 	} else {
 		const exporter = isSpanExporter(supplied.exporter) ? supplied.exporter : new OTLPExporter(supplied.exporter)
