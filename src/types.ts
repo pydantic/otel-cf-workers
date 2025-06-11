@@ -51,6 +51,7 @@ interface TraceConfigBase {
 	propagator?: TextMapPropagator
 	instrumentation?: InstrumentationOptions
 	idGenerator?: IdGenerator
+	environment?: string
 }
 
 interface TraceConfigExporter extends TraceConfigBase {

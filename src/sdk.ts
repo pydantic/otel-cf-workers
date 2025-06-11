@@ -19,6 +19,7 @@ import {
 	ATTR_TELEMETRY_SDK_VERSION,
 } from '@opentelemetry/semantic-conventions'
 import {
+	ATTR_DEPLOYMENT_ENVIRONMENT_NAME,
 	ATTR_FAAS_MAX_MEMORY,
 	ATTR_SERVICE_NAME,
 	ATTR_SERVICE_NAMESPACE,
@@ -67,6 +68,7 @@ const createResource = (config: ResolvedTraceConfig): Resource => {
 		[ATTR_SERVICE_NAME]: config.service.name,
 		[ATTR_SERVICE_NAMESPACE]: config.service.namespace,
 		[ATTR_SERVICE_VERSION]: config.service.version,
+		...(config.environment ? { [ATTR_DEPLOYMENT_ENVIRONMENT_NAME]: config.environment } : {}),
 	})
 	const resource = resourceFromAttributes(workerResourceAttrs)
 	return resource.merge(serviceResource)
