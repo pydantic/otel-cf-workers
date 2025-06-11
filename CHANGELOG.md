@@ -1,5 +1,11 @@
 # @microlabs/otel-cf-workers
 
+## 1.0.0-rc.53
+
+### Patch Changes
+
+- 2678626: Make environment config work
+
 ## 1.0.0-rc.52
 
 ### Minor Changes
