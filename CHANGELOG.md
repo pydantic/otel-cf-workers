@@ -1,5 +1,11 @@
 # @microlabs/otel-cf-workers
 
+## 1.0.0-rc.52
+
+### Minor Changes
+
+- 16a132a: Supports configuration of deployment environment
+
 ## 1.0.0-rc.51
 
 ### Patch Changes
