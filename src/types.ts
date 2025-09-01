@@ -56,6 +56,7 @@ interface TraceConfigBase {
 
 interface TraceConfigExporter extends TraceConfigBase {
 	exporter: ExporterConfig
+	additionalSpanProcessors?: SpanProcessor[]
 }
 
 interface TraceConfigSpanProcessors extends TraceConfigBase {
