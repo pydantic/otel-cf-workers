@@ -1,5 +1,11 @@
 # @microlabs/otel-cf-workers
 
+## 1.0.0-rc.54
+
+### Patch Changes
+
+- 08f7145: Support additional span processors while having the default exporter
+
 ## 1.0.0-rc.53
 
 ### Patch Changes
