@@ -16,6 +16,8 @@ jobs:
     if: github.repository_owner == 'pydantic'
     permissions:
       id-token: write
+      contents: write
+      pull-requests: write
     environment:
       name: npm
     steps:
