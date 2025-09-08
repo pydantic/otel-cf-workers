@@ -16,6 +16,9 @@
 			}
 		}
 	},
+	"repository": {
+		"url": "https://github.com/pydantic/otel-cf-workers"
+	},
 	"scripts": {
 		"clean": "rimraf ./dist versions.json",
 		"format": "prettier --ignore-unknown --write .",
