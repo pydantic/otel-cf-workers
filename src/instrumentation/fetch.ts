@@ -167,10 +167,24 @@ export function executeFetchHandler(fetchFn: FetchHandler, [request, env, ctx]: 
 			const response = await fetchFn(request, env, ctx)
 			span.setAttributes(gatherResponseAttributes(response))
 
-			return response
+			if (!response.body) {
+				span.end()
+				return response
+			}
+
+			const transformer = new TransformStream({
+				transform(chunk, controller) {
+					controller.enqueue(chunk)
+				},
+				flush() {
+					span.end()
+				},
+			})
+			return new Response(response.body.pipeThrough(transformer), response)
 		} catch (error) {
 			span.recordException(error as Exception)
 			span.setStatus({ code: SpanStatusCode.ERROR })
+			span.end()
 			throw error
 		} finally {
 			if (readable.attributes['http.route']) {
@@ -178,7 +192,6 @@ export function executeFetchHandler(fetchFn: FetchHandler, [request, env, ctx]: 
 			} else if (readable.attributes['url.path']) {
 				span.updateName(`fetchHandler ${method} ${readable.attributes['url.path']}`)
 			}
-			span.end()
 		}
 	})
 	return promise
@@ -243,10 +256,24 @@ export function instrumentClientFetch(
 				}
 				span.setAttributes(gatherRequestAttributes(request))
 				if (request.cf) span.setAttributes(gatherOutgoingCfAttributes(request.cf))
+
 				const response = await Reflect.apply(target, thisArg, [request])
 				span.setAttributes(gatherResponseAttributes(response))
-				span.end()
-				return response
+
+				if (!response.body) {
+					span.end()
+					return response
+				}
+
+				const transformer = new TransformStream({
+					transform(chunk, controller) {
+						controller.enqueue(chunk)
+					},
+					flush() {
+						span.end()
+					},
+				})
+				return new Response(response.body.pipeThrough(transformer), response)
 			})
 			return promise
 		},
