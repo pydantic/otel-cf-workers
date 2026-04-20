@@ -1,6 +1,6 @@
 import { Attributes, Exception, SpanKind, SpanOptions, context as api_context, trace } from '@opentelemetry/api'
-import { ATTR_FAAS_TRIGGER } from '@opentelemetry/semantic-conventions/incubating'
 import { Initialiser, setConfig } from '../config.js'
+import { ATTR_FAAS_TRIGGER } from '../semconv.js'
 import { unwrap, wrap } from '../wrap.js'
 import { exportSpans, proxyExecutionContext } from './common.js'
 import { instrumentEnv } from './env.js'

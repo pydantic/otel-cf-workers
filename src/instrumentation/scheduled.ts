@@ -3,13 +3,8 @@ import { Initialiser, setConfig } from '../config.js'
 import { exportSpans, proxyExecutionContext } from './common.js'
 import { instrumentEnv } from './env.js'
 import { wrap } from '../wrap.js'
+import { ATTR_FAAS_COLDSTART, ATTR_FAAS_CRON, ATTR_FAAS_TIME, ATTR_FAAS_TRIGGER } from '../semconv.js'
 import { versionAttributes } from './version.js'
-import {
-	ATTR_FAAS_COLDSTART,
-	ATTR_FAAS_CRON,
-	ATTR_FAAS_TIME,
-	ATTR_FAAS_TRIGGER,
-} from '@opentelemetry/semantic-conventions/incubating'
 
 type ScheduledHandler = ExportedHandlerScheduledHandler<unknown>
 export type ScheduledHandlerArgs = Parameters<ScheduledHandler>

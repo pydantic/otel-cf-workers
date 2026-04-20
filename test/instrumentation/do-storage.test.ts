@@ -63,7 +63,7 @@ describe('delete', () => {
 			  "db.cf.do.key": "key",
 			  "db.operation.name": "delete",
 			  "db.query.text": "delete key",
-			  "db.system": "Cloudflare DO",
+			  "db.system.name": "Cloudflare DO",
 			  "operation": "delete",
 			}
 		`)
@@ -86,7 +86,7 @@ describe('delete', () => {
 			  "db.cf.do.number_of_keys": 2,
 			  "db.operation.name": "delete",
 			  "db.query.text": "delete key1,key2",
-			  "db.system": "Cloudflare DO",
+			  "db.system.name": "Cloudflare DO",
 			  "operation": "delete",
 			}
 		`)
@@ -110,7 +110,7 @@ describe('delete', () => {
 			  "db.cf.do.no_cache": true,
 			  "db.operation.name": "delete",
 			  "db.query.text": "delete key",
-			  "db.system": "Cloudflare DO",
+			  "db.system.name": "Cloudflare DO",
 			  "operation": "delete",
 			}
 		`)
@@ -145,7 +145,7 @@ describe('deleteAll', () => {
 			  "db.cf.do.has_result": false,
 			  "db.operation.name": "deleteAll",
 			  "db.query.text": "deleteAll undefined",
-			  "db.system": "Cloudflare DO",
+			  "db.system.name": "Cloudflare DO",
 			  "operation": "deleteAll",
 			}
 		`)
@@ -192,7 +192,7 @@ describe('get', () => {
 			  "db.cf.do.key": "key",
 			  "db.operation.name": "get",
 			  "db.query.text": "get key",
-			  "db.system": "Cloudflare DO",
+			  "db.system.name": "Cloudflare DO",
 			  "operation": "get",
 			}
 		`)
@@ -215,7 +215,7 @@ describe('get', () => {
 			  "db.cf.do.number_of_keys": 2,
 			  "db.operation.name": "get",
 			  "db.query.text": "get key1,key2",
-			  "db.system": "Cloudflare DO",
+			  "db.system.name": "Cloudflare DO",
 			  "operation": "get",
 			}
 		`)
@@ -239,7 +239,7 @@ describe('get', () => {
 			  "db.cf.do.no_cache": true,
 			  "db.operation.name": "get",
 			  "db.query.text": "get key",
-			  "db.system": "Cloudflare DO",
+			  "db.system.name": "Cloudflare DO",
 			  "operation": "get",
 			}
 		`)
@@ -282,7 +282,7 @@ describe('list', () => {
 			  "db.cf.do.number_of_results": 0,
 			  "db.operation.name": "list",
 			  "db.query.text": "list undefined",
-			  "db.system": "Cloudflare DO",
+			  "db.system.name": "Cloudflare DO",
 			  "operation": "list",
 			}
 		`)
@@ -305,7 +305,7 @@ describe('list', () => {
 			  "db.cf.do.number_of_results": 0,
 			  "db.operation.name": "list",
 			  "db.query.text": "list [object Object]",
-			  "db.system": "Cloudflare DO",
+			  "db.system.name": "Cloudflare DO",
 			  "operation": "list",
 			}
 		`)
@@ -345,7 +345,7 @@ describe('put', () => {
 			  "db.cf.do.key": "key",
 			  "db.operation.name": "put",
 			  "db.query.text": "put key",
-			  "db.system": "Cloudflare DO",
+			  "db.system.name": "Cloudflare DO",
 			  "operation": "put",
 			}
 		`)
@@ -374,7 +374,7 @@ describe('put', () => {
 			  "db.cf.do.no_cache": true,
 			  "db.operation.name": "put",
 			  "db.query.text": "put key",
-			  "db.system": "Cloudflare DO",
+			  "db.system.name": "Cloudflare DO",
 			  "operation": "put",
 			}
 		`)
@@ -400,7 +400,7 @@ describe('put', () => {
 			  "db.cf.do.number_of_keys": 2,
 			  "db.operation.name": "put",
 			  "db.query.text": "put [object Object]",
-			  "db.system": "Cloudflare DO",
+			  "db.system.name": "Cloudflare DO",
 			  "operation": "put",
 			}
 		`)
@@ -436,7 +436,7 @@ describe('put', () => {
 			  "db.cf.do.number_of_keys": 2,
 			  "db.operation.name": "put",
 			  "db.query.text": "put [object Object]",
-			  "db.system": "Cloudflare DO",
+			  "db.system.name": "Cloudflare DO",
 			  "operation": "put",
 			}
 		`)
@@ -474,7 +474,7 @@ test('sync', async () => {
 		  "db.cf.do.has_result": false,
 		  "db.operation.name": "sync",
 		  "db.query.text": "sync undefined",
-		  "db.system": "Cloudflare DO",
+		  "db.system.name": "Cloudflare DO",
 		  "operation": "sync",
 		}
 	`)

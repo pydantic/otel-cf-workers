@@ -3,8 +3,8 @@ import {
 	ATTR_DB_NAMESPACE,
 	ATTR_DB_OPERATION_NAME,
 	ATTR_DB_QUERY_TEXT,
-	ATTR_DB_SYSTEM,
-} from '@opentelemetry/semantic-conventions/incubating'
+	ATTR_DB_SYSTEM_NAME,
+} from '@opentelemetry/semantic-conventions'
 import { wrap } from '../wrap.js'
 
 type ExtraAttributeFn = (argArray: any[], result: any) => Attributes
@@ -32,7 +32,7 @@ function instrumentAEFn(fn: Function, name: string, operation: string) {
 			const attributes = {
 				binding_type: 'AnalyticsEngine',
 				[ATTR_DB_NAMESPACE]: name,
-				[ATTR_DB_SYSTEM]: dbSystem,
+				[ATTR_DB_SYSTEM_NAME]: dbSystem,
 				[ATTR_DB_OPERATION_NAME]: operation,
 			}
 			const options: SpanOptions = {

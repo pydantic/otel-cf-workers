@@ -8,7 +8,7 @@ You just need to provide your Honeycomb API key as a secret.
 ## Installation
 
 ```bash
-npm install @microlabs/otel-cf-workers @opentelemetry/api
+npm install @pydantic/otel-cf-workers @opentelemetry/api@^1.9.0
 npx wrangler secret put HONEYCOMB_API_KEY
 ```
 
@@ -18,7 +18,7 @@ in your `wrangler.toml`
 ## Example
 
 ```typescript
-import { instrument, ResolveConfigFn } from '@microlabs/otel-cf-workers'
+import { instrument, ResolveConfigFn } from '@pydantic/otel-cf-workers'
 import { trace } from '@opentelemetry/api'
 
 export interface Env {
