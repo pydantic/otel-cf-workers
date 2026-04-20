@@ -14,17 +14,14 @@ import { createScheduledHandler } from './instrumentation/scheduled.js'
 import * as versions from '../versions.json'
 import { createEmailHandler } from './instrumentation/email.js'
 import {
+	ATTR_SERVICE_NAME,
+	ATTR_SERVICE_NAMESPACE,
+	ATTR_SERVICE_VERSION,
 	ATTR_TELEMETRY_SDK_LANGUAGE,
 	ATTR_TELEMETRY_SDK_NAME,
 	ATTR_TELEMETRY_SDK_VERSION,
 } from '@opentelemetry/semantic-conventions'
-import {
-	ATTR_DEPLOYMENT_ENVIRONMENT_NAME,
-	ATTR_FAAS_MAX_MEMORY,
-	ATTR_SERVICE_NAME,
-	ATTR_SERVICE_NAMESPACE,
-	ATTR_SERVICE_VERSION,
-} from '@opentelemetry/semantic-conventions/incubating'
+import { ATTR_DEPLOYMENT_ENVIRONMENT_NAME, ATTR_FAAS_MAX_MEMORY } from './semconv.js'
 
 type FetchHandler = ExportedHandlerFetchHandler<unknown, unknown>
 type ScheduledHandler = ExportedHandlerScheduledHandler<unknown>

@@ -5,7 +5,7 @@ An OpenTelemetry compatible library for instrumenting and exporting traces from 
 ## Getting started
 
 ```bash
-npm install @microlabs/otel-cf-workers @opentelemetry/api
+npm install @pydantic/otel-cf-workers @opentelemetry/api@^1.9.0
 ```
 
 > [!IMPORTANT]
@@ -21,7 +21,7 @@ For a simple setup example with configuration examples, have a look at the [Quic
 
 ```typescript
 import { trace } from '@opentelemetry/api'
-import { instrument, ResolveConfigFn } from '@microlabs/otel-cf-workers'
+import { instrument, ResolveConfigFn } from '@pydantic/otel-cf-workers'
 
 export interface Env {
 	HONEYCOMB_API_KEY: string
@@ -65,7 +65,7 @@ See the quick start code sample for an example of how it works.
 Instrumenting Durable Objects work very similar to the regular Worker auto-instrumentation. Instead of wrapping the handler in an `instrument` call, you wrap the Durable Object class with the `instrumentDO` function.
 
 ```typescript
-import { instrumentDO, PartialTraceConfig } from '@microlabs/otel-cf-workers'
+import { instrumentDO, PartialTraceConfig } from '@pydantic/otel-cf-workers'
 
 const config: ResolveConfigFn = (env: Env, _trigger) => {
 	return {
@@ -228,6 +228,12 @@ const tailSampler = (traceInfo: LocalTrace): boolean => {
 ```
 
 The default is a tailSampler that samples traces that have been head sampled or if the local root span is marked as an error.
+
+## OpenTelemetry Compatibility
+
+This package supports `@opentelemetry/api` `~1.9.x` as a peer dependency and is built against the current OpenTelemetry JS 2.x / experimental 0.x SDK packages.
+
+Unstable semantic convention keys are owned internally so consumers do not need to import `@opentelemetry/semantic-conventions/incubating`.
 
 #### Service
 

@@ -15,6 +15,7 @@ import { instrumentEnv } from './env.js'
 import { exportSpans, proxyExecutionContext } from './common.js'
 import { ResolvedTraceConfig } from '../types.js'
 import { ReadableSpan } from '@opentelemetry/sdk-trace-base'
+import { ATTR_FAAS_COLDSTART, ATTR_FAAS_INVOCATION_ID, ATTR_FAAS_TRIGGER } from '../semconv.js'
 import { versionAttributes } from './version.js'
 
 export type IncludeTraceContextFn = (request: Request) => boolean
@@ -147,9 +148,9 @@ export function executeFetchHandler(fetchFn: FetchHandler, [request, env, ctx]: 
 
 	const tracer = trace.getTracer('fetchHandler')
 	const attributes = {
-		['faas.trigger']: 'http',
-		['faas.coldstart']: cold_start,
-		['faas.invocation_id']: request.headers.get('cf-ray') ?? undefined,
+		[ATTR_FAAS_TRIGGER]: 'http',
+		[ATTR_FAAS_COLDSTART]: cold_start,
+		[ATTR_FAAS_INVOCATION_ID]: request.headers.get('cf-ray') ?? undefined,
 	}
 	cold_start = false
 	Object.assign(attributes, gatherRequestAttributes(request))

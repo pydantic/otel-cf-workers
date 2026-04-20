@@ -1,14 +1,10 @@
 import { setConfig, type Initialiser } from '../config'
+import { ATTR_FAAS_TRIGGER, ATTR_MESSAGING_DESTINATION_NAME, ATTR_RPC_MESSAGE_ID } from '../semconv.js'
 import { wrap } from '../wrap'
 import { exportSpans, proxyExecutionContext } from './common'
 import { context as api_context, Exception, SpanKind, type SpanOptions, trace } from '@opentelemetry/api'
 import { instrumentEnv } from './env'
 import { versionAttributes } from './version'
-import {
-	ATTR_FAAS_TRIGGER,
-	ATTR_MESSAGING_DESTINATION_NAME,
-	ATTR_RPC_MESSAGE_ID,
-} from '@opentelemetry/semantic-conventions/incubating'
 
 type EmailHandler = EmailExportedHandler
 export type EmailHandlerArgs = Parameters<EmailHandler>

@@ -3,8 +3,8 @@ import {
 	ATTR_DB_NAMESPACE,
 	ATTR_DB_OPERATION_NAME,
 	ATTR_DB_QUERY_TEXT,
-	ATTR_DB_SYSTEM,
-} from '@opentelemetry/semantic-conventions/incubating'
+	ATTR_DB_SYSTEM_NAME,
+} from '@opentelemetry/semantic-conventions'
 import { wrap } from '../wrap.js'
 
 const dbSystem = 'Cloudflare D1'
@@ -31,7 +31,7 @@ function spanOptions(dbName: string, operation: string, sql?: string): SpanOptio
 	const attributes: Attributes = {
 		binding_type: 'D1',
 		[ATTR_DB_NAMESPACE]: dbName,
-		[ATTR_DB_SYSTEM]: dbSystem,
+		[ATTR_DB_SYSTEM_NAME]: dbSystem,
 		[ATTR_DB_OPERATION_NAME]: operation,
 	}
 	if (sql) {
