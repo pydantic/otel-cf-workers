@@ -1,5 +1,11 @@
 # @microlabs/otel-cf-workers
 
+## 1.0.0-rc.55
+
+### Minor Changes
+
+- aa47737: Upgrade OpenTelemetry dependencies to current releases, move unstable semconv usage behind a local compatibility layer, and migrate emitted database telemetry from `db.system` to `db.system.name` while retaining `rpc.message.id`.
+
 ## 1.0.0-rc.54
 
 ### Patch Changes
