@@ -1,6 +1,6 @@
 {
 	"name": "@pydantic/otel-cf-workers",
-	"version": "1.0.0-rc.55",
+	"version": "1.0.0-rc.56",
 	"main": "dist/index.js",
 	"module": "dist/index.mjs",
 	"types": "dist/index.d.mts",
@@ -43,13 +43,13 @@
 	],
 	"homepage": "https://github.com/pydantic/otel-cf-workers#readme",
 	"dependencies": {
-		"@opentelemetry/core": "^2.7.0",
-		"@opentelemetry/exporter-trace-otlp-http": "^0.215.0",
-		"@opentelemetry/otlp-exporter-base": "^0.215.0",
-		"@opentelemetry/otlp-transformer": "^0.215.0",
-		"@opentelemetry/resources": "^2.7.0",
-		"@opentelemetry/sdk-trace-base": "^2.7.0",
-		"@opentelemetry/semantic-conventions": "^1.40.0"
+		"@opentelemetry/core": "^2.7.1",
+		"@opentelemetry/exporter-trace-otlp-http": "^0.217.0",
+		"@opentelemetry/otlp-exporter-base": "^0.217.0",
+		"@opentelemetry/otlp-transformer": "^0.217.0",
+		"@opentelemetry/resources": "^2.7.1",
+		"@opentelemetry/sdk-trace-base": "^2.7.1",
+		"@opentelemetry/semantic-conventions": "^1.41.1"
 	},
 	"devDependencies": {
 		"@changesets/cli": "^2.27.8",

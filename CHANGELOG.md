@@ -1,5 +1,11 @@
 # @microlabs/otel-cf-workers
 
+## 1.0.0-rc.56
+
+### Patch Changes
+
+- Update OpenTelemetry runtime dependencies to the latest compatible releases.
+
 ## 1.0.0-rc.55
 
 ### Minor Changes
