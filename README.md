@@ -1,5 +1,13 @@
 # otel-cf-workers
 
+> [!IMPORTANT]
+> This repository is archived. The source for `@pydantic/otel-cf-workers` has moved to the Pydantic Logfire JavaScript monorepo:
+> <https://github.com/pydantic/logfire-js/tree/main/packages/otel-cf-workers>
+>
+> New issues, pull requests, and releases should use <https://github.com/pydantic/logfire-js>. The package is published from that monorepo starting with `@pydantic/otel-cf-workers@1.0.0`.
+>
+> If you want the Logfire Cloudflare Workers integration, use `@pydantic/logfire-cf-workers`, also published from the Logfire JavaScript monorepo.
+
 An OpenTelemetry compatible library for instrumenting and exporting traces from Cloudflare Workers.
 
 ## Getting started
